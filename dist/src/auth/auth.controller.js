@@ -21,30 +21,16 @@ let AuthController = class AuthController {
     constructor(authService) {
         this.authService = authService;
     }
-    signin() {
-        return { errors: [] };
-    }
     async signIn(session, res, dto) {
         await this.authService.signIn(session, dto);
-        return res.redirect('/');
+        return;
     }
-    signup() {
-        return { errors: [] };
-    }
-    async signUp(res, dto) {
+    async signUp(dto) {
+        console.log("Signup ", dto);
         await this.authService.signUp(dto);
-        return res.redirect('/');
-    }
-    signOut(session, res) {
-        return this.authService.signOut(session, res);
+        return;
     }
 };
-__decorate([
-    (0, common_1.Get)('signin'),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
-    __metadata("design:returntype", void 0)
-], AuthController.prototype, "signin", null);
 __decorate([
     (0, common_1.UseFilters)(filters_1.AuthExceptionFilter),
     (0, common_1.HttpCode)(common_1.HttpStatus.OK),
@@ -57,30 +43,14 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "signIn", null);
 __decorate([
-    (0, common_1.Get)('signup'),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
-    __metadata("design:returntype", void 0)
-], AuthController.prototype, "signup", null);
-__decorate([
     (0, common_1.UseFilters)(filters_1.AuthExceptionFilter),
     (0, common_1.HttpCode)(common_1.HttpStatus.CREATED),
     (0, common_1.Post)('signup'),
-    __param(0, (0, common_1.Response)()),
-    __param(1, (0, common_1.Body)()),
+    __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, dto_1.SignUpDto]),
+    __metadata("design:paramtypes", [dto_1.SignUpDto]),
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "signUp", null);
-__decorate([
-    (0, common_1.HttpCode)(common_1.HttpStatus.OK),
-    (0, common_1.Get)('signout'),
-    __param(0, (0, common_1.Session)()),
-    __param(1, (0, common_1.Response)()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object]),
-    __metadata("design:returntype", void 0)
-], AuthController.prototype, "signOut", null);
 AuthController = __decorate([
     (0, common_1.Controller)(),
     __metadata("design:paramtypes", [auth_service_1.AuthService])

@@ -84,15 +84,7 @@ let AuthService = class AuthService {
                 throw new common_1.HttpException(err.message, common_1.HttpStatus.SERVICE_UNAVAILABLE);
             }
         });
-        return res.redirect('/');
-    }
-    async profile(user) {
-        return {
-            id: user.id,
-            username: user.username,
-            firstName: user.first_name,
-            lastName: user.last_name,
-        };
+        return {};
     }
 };
 AuthService = __decorate([

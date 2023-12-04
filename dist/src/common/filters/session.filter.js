@@ -14,7 +14,7 @@ let SessionExceptionFilter = class SessionExceptionFilter {
         const response = ctx.getResponse();
         if (exception instanceof common_1.UnauthorizedException ||
             exception instanceof common_1.ForbiddenException) {
-            return response.redirect('/signin');
+            return {};
         }
     }
 };

@@ -1,11 +1,11 @@
-import { ValidationPipe } from '@nestjs/common';
-import { NestFactory } from '@nestjs/core';
-import { NestExpressApplication } from '@nestjs/platform-express';
-import MongoStore from 'connect-mongo';
-import 'dotenv/config';
-import session from 'express-session';
-import helmet from 'helmet';
-import { AppModule } from './app.module';
+import { ValidationPipe } from "@nestjs/common";
+import { NestFactory } from "@nestjs/core";
+import { NestExpressApplication } from "@nestjs/platform-express";
+import MongoStore from "connect-mongo";
+import "dotenv/config";
+import session from "express-session";
+import helmet from "helmet";
+import { AppModule } from "./app.module";
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
@@ -16,7 +16,7 @@ async function bootstrap() {
 
   // TODO: set origin to the frontend url once it's deployed.
   app.enableCors({
-    origin: '*',
+    origin: "*",
   });
 
   app.use(
@@ -29,7 +29,7 @@ async function bootstrap() {
         mongoUrl: process.env.MONGO_URL,
         crypto: { secret: process.env.MONGO_SECRET },
       }),
-    }),
+    })
   );
 
   await app.listen(process.env.PORT || 3000);

@@ -3,21 +3,21 @@ import {
   HttpStatus,
   Injectable,
   UnauthorizedException,
-} from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
-import { User } from '@prisma/client';
-import * as bcrypt from 'bcrypt';
-import { Response } from 'express';
-import { UserSession } from '../common';
-import { PrismaService } from '../prisma/prisma.service';
-import { SignInDto, SignUpDto } from './dto';
+} from "@nestjs/common";
+import { ConfigService } from "@nestjs/config";
+import { User } from "@prisma/client";
+import * as bcrypt from "bcrypt";
+import { Response } from "express";
+import { UserSession } from "../common";
+import { PrismaService } from "../prisma/prisma.service";
+import { SignInDto, SignUpDto } from "./dto";
 
 @Injectable()
 export class AuthService {
   private readonly saltRounds: number;
 
   constructor(private prisma: PrismaService, private config: ConfigService) {
-    this.saltRounds = this.config.get('SALT_ROUNDS', 12);
+    this.saltRounds = this.config.get("SALT_ROUNDS", 12);
   }
 
   async signIn(session: UserSession, dto: SignInDto) {
@@ -25,12 +25,12 @@ export class AuthService {
       where: { username: dto.username },
     });
     if (!user) {
-      throw new UnauthorizedException('Invalid credentials');
+      throw new UnauthorizedException("Invalid credentials");
     }
 
     const isValid = bcrypt.compareSync(dto.password, user.password);
     if (!isValid) {
-      throw new UnauthorizedException('Invalid credentials');
+      throw new UnauthorizedException("Invalid credentials");
     }
 
     delete user.password;
@@ -52,33 +52,24 @@ export class AuthService {
         },
       });
     } catch (err) {
-      if (err.code === 'P2002') {
-        throw new HttpException('Credentials taken', HttpStatus.CONFLICT);
+      if (err.code === "P2002") {
+        throw new HttpException("Credentials taken", HttpStatus.CONFLICT);
       }
       throw new HttpException(
-        'Something went wrong',
-        HttpStatus.INTERNAL_SERVER_ERROR,
+        "Something went wrong",
+        HttpStatus.INTERNAL_SERVER_ERROR
       );
     }
   }
 
   async signOut(session: UserSession, res: Response) {
-    res.clearCookie('connect.sid');
+    res.clearCookie("connect.sid");
 
     session.destroy((err) => {
       if (err) {
         throw new HttpException(err.message, HttpStatus.SERVICE_UNAVAILABLE);
       }
     });
-    return res.redirect('/');
-  }
-
-  async profile(user: User) {
-    return {
-      id: user.id,
-      username: user.username,
-      firstName: user.first_name,
-      lastName: user.last_name,
-    };
+    return {};
   }
 }

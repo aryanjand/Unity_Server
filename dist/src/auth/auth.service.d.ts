@@ -1,5 +1,4 @@
 import { ConfigService } from '@nestjs/config';
-import { User } from '@prisma/client';
 import { Response } from 'express';
 import { UserSession } from '../common';
 import { PrismaService } from '../prisma/prisma.service';
@@ -11,11 +10,5 @@ export declare class AuthService {
     constructor(prisma: PrismaService, config: ConfigService);
     signIn(session: UserSession, dto: SignInDto): Promise<void>;
     signUp(dto: SignUpDto): Promise<void>;
-    signOut(session: UserSession, res: Response): Promise<void>;
-    profile(user: User): Promise<{
-        id: number;
-        username: string;
-        firstName: string;
-        lastName: string;
-    }>;
+    signOut(session: UserSession, res: Response): Promise<{}>;
 }

@@ -5,8 +5,8 @@ import {
   HttpException,
   UnauthorizedException,
   ForbiddenException,
-} from '@nestjs/common';
-import { Response } from 'express';
+} from "@nestjs/common";
+import { Response } from "express";
 
 @Catch(HttpException)
 export class SessionExceptionFilter implements ExceptionFilter {
@@ -18,7 +18,7 @@ export class SessionExceptionFilter implements ExceptionFilter {
       exception instanceof UnauthorizedException ||
       exception instanceof ForbiddenException
     ) {
-      return response.redirect('/signin');
+      return {};
     }
   }
 }

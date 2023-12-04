@@ -3,9 +3,9 @@ import {
   Catch,
   ExceptionFilter,
   HttpException,
-} from '@nestjs/common';
-import { RouteTree } from '@nestjs/core';
-import { Request, Response } from 'express';
+} from "@nestjs/common";
+import { RouteTree } from "@nestjs/core";
+import { Request, Response } from "express";
 
 @Catch(HttpException)
 export class AuthExceptionFilter implements ExceptionFilter {
@@ -18,14 +18,14 @@ export class AuthExceptionFilter implements ExceptionFilter {
 
     response.status(exception.getStatus());
 
-    if (exception.getResponse()['message'] === 'Invalid credentials') {
-      return  {
-        errors: [exception.getResponse()['message']],
+    if (exception.getResponse()["message"] === "Invalid credentials") {
+      return {
+        errors: [exception.getResponse()["message"]],
       };
     }
 
     return {
-      errors: exception.getResponse()['message'],
+      errors: exception.getResponse()["message"],
     };
   }
 }
