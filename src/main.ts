@@ -3,6 +3,7 @@ import { NestFactory } from "@nestjs/core";
 import { NestExpressApplication } from "@nestjs/platform-express";
 import MongoStore from "connect-mongo";
 import "dotenv/config";
+import cookieParser from 'cookie-parser';
 import session from "express-session";
 import helmet from "helmet";
 import { AppModule } from "./app.module";
@@ -12,7 +13,8 @@ async function bootstrap() {
 
   app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
 
-  app.use(helmet({ contentSecurityPolicy: false }));
+  app.use(cookieParser());
+  app.use(helmet());
 
   app.enableCors({ origin: true, credentials: true });
 
