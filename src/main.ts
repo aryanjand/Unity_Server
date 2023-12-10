@@ -14,10 +14,7 @@ async function bootstrap() {
 
   app.use(helmet({ contentSecurityPolicy: false }));
 
-  // TODO: set origin to the frontend url once it's deployed.
-  app.enableCors({
-    origin: "*",
-  });
+  app.enableCors({ origin: true, credentials: true });
 
   app.use(
     session({
