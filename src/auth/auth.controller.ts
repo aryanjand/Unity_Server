@@ -23,15 +23,15 @@ export class AuthController {
   async signIn(@Session() session: UserSession, @Body() dto: SignInDto) {
     await this.authService.signIn(session, dto);
     console.log("Session ", session);
-    return;
+    return { session: session };
   }
 
   @UseFilters(AuthExceptionFilter)
   @HttpCode(HttpStatus.CREATED)
   @Post("signup")
-  async signUp(@Body() dto: SignUpDto) {
+  async signUp(@Session() session: UserSession, @Body() dto: SignUpDto) {
     console.log("Signup ", dto);
-    await this.authService.signUp(dto);
-    return;
+    await this.authService.signUp(session, dto);
+    return { session: session };
   }
 }

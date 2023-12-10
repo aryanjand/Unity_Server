@@ -41,9 +41,9 @@ export class AuthService {
     return;
   }
 
-  async signUp(dto: SignUpDto) {
+  async signUp(session: UserSession, dto: SignUpDto) {
     try {
-      await this.prisma.user.create({
+      const user = await this.prisma.user.create({
         data: {
           username: dto.username,
           password: bcrypt.hashSync(dto.password, this.saltRounds),
@@ -51,6 +51,11 @@ export class AuthService {
           last_name: dto.lastName,
         },
       });
+
+      delete user.password;
+
+      session.authenticated = true;
+      session.user = user;
     } catch (err) {
       if (err.code === "P2002") {
         throw new HttpException("Credentials taken", HttpStatus.CONFLICT);
